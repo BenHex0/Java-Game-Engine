@@ -1,83 +1,101 @@
 package engine;
 
-import java.util.ArrayList;
-import entities.Entity;
-import entities.Player;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+import javax.swing.JFrame;
 
-public class Engine implements Runnable {
+public class Engine extends Canvas implements Runnable {
 
-    ArrayList<Entity> entities;
-    Renderer renderer = new Renderer();
-    Camera camera = new Camera(renderer.screenWidth, renderer.screenHeight);
-    InputHandler inputHandler = new InputHandler();
-    Player player = new Player();
-    Thread gameThread;
+    // screen settings
+    final double aspectRatio = 16.0 / 9.0;
+    final int screenWidth = 300;
+    final int screenHeight = (int) (screenWidth / aspectRatio);
+    final int scale = 3;
+
+    private Thread gameThread;
+    JFrame window;
+    private boolean running = false;
 
     public Engine() {
-        entities = new ArrayList<>();
-        entities.add(player);
-        renderer.addObjects(entities);
-        renderer.addKeyListener(inputHandler);
-        renderer.setFocusable(true);
-        renderer.setCamera(camera);
+        Dimension size = new Dimension(screenWidth * scale, screenHeight * scale);
+        setPreferredSize(size);
+        window = new JFrame();
     }
 
-    public void startGameThread() {
-        gameThread = new Thread(this);
+    public synchronized void start() {
+        running = true;
+        gameThread = new Thread(this, "Display");
         gameThread.start();
     }
 
-    public Renderer getRenderer() {
-        return renderer;
+    public synchronized void stop() {
+        try {
+            gameThread.join();
+        } catch (InterruptedException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
     }
 
     // Game Loop
     @Override
     public void run() {
         final int FPS = 60;
-        final double TIME_PER_FRAME = 1000000000.0 / FPS;
+        final double ns = 1000000000.0 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
-        long currentTime;
-        long timer = 0;
-        int drawCount = 0;
+        long timer = System.currentTimeMillis();
+        int frames = 0;
+        int updates = 0;
+        requestFocus();
 
-        for (Entity e : entities) {
-            e.start();
-            if (e.input != null) {
-                e.input = inputHandler;
-            }
-            if (e.camera != null) {
-                e.camera = camera;
-            }
-        }
-
-        while (gameThread != null) {
-
-            currentTime = System.nanoTime();
-            delta += (currentTime - lastTime) / TIME_PER_FRAME;
-            timer += (currentTime - lastTime);
+        // main game loop
+        while (running) {
+            long currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / ns;
             lastTime = currentTime;
-
             if (delta >= 1) {
-                inputHandler.update();
-                // 1. UPDATE: update game information
-                for (Entity e : entities) {
-                    e.update();
-                }
-                // 2. REDRAW: draw the screen with the updated information
-                renderer.repaint();
-
-                // handle time
+                update();
+                updates++;
                 delta--;
-                drawCount++;
             }
+            render();
+            frames++;
 
-            if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
-                drawCount = 0;
-                timer = 0;
+            if (System.currentTimeMillis() - timer > 1000) {
+                window.setTitle(updates + " ups, " + frames + " FPS");
+                timer += 1000;
+                updates = 0;
+                frames = 0;
             }
         }
+    }
+
+    public void update() {
+
+    }
+
+    public void render() {
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
+
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.dispose();
+        bs.show();
+    }
+
+    public void startGame() {
+        window.add(this);
+        window.pack();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setLocationRelativeTo(null);
+        window.setResizable(true);
+        window.setVisible(true);
+        this.start();
     }
 }
