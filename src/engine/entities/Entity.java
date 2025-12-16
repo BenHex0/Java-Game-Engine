@@ -5,12 +5,17 @@ import engine.graphics.Sprite;
 import engine.levels.Level;
 import engine.utilities.Position;
 
-
 public abstract class Entity {
 
     protected Position position;
     protected Level level;
     protected Sprite sprite;
+
+    protected enum Direction {
+        UP, DOWN, LEFT, RIGHT
+    }
+
+    protected Direction dir;
 
     public double getX() {
         return position.x;
@@ -29,11 +34,10 @@ public abstract class Entity {
     }
 
     public abstract void update();
-    
+
     public void render(Renderer renderer) {
 
     }
-
 
     public void init(Level level) {
         this.level = level;
