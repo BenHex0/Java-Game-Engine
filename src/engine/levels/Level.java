@@ -12,7 +12,6 @@ import engine.graphics.*;
 import engine.input.InputHandler;
 import engine.levels.tiles.*;
 
-
 public class Level {
     protected int width, height;
     protected int[] tilesInt;
@@ -63,27 +62,24 @@ public class Level {
         enemy.update();
     }
 
-    public void render(int xScroll, int yScroll, Renderer renderer) {
-        renderTileMap(xScroll, yScroll, renderer);
+    public void render(Renderer renderer) {
+        renderTileMap(renderer);
         enemy.render(renderer);
     }
 
-    private void renderTileMap(int xScroll, int yScroll, Renderer renderer) {
-        renderer.camera.setOffset(xScroll, yScroll);
+    private void renderTileMap(Renderer renderer) {
+        int camX = (int)renderer.camera.getxOffset();
+        int camY = (int)renderer.camera.getyOffset();
 
-        int x0 = renderer.camera.getxOffset() >> 4;
-        int x1 = (renderer.camera.getxOffset() + renderer.screenWidth + 16) >> 4;
-        int y0 = renderer.camera.getyOffset() >> 4;
-        int y1 = (renderer.camera.getyOffset() + renderer.screenHeight + 16) >> 4;
+        int x0 = camX >> 4;
+        int y0 = camY >> 4;
+        int x1 = (camX + renderer.screenWidth + 16) >> 4;
+        int y1 = (camY + renderer.screenHeight + 16) >> 4;
 
-        if (x0 < 0)
-            x0 = 0;
-        if (y0 < 0)
-            y0 = 0;
-        if (x1 > width)
-            x1 = width;
-        if (y1 > height)
-            y1 = height;
+        x0 = Math.max(0, x0);
+        y0 = Math.max(0, y0);
+        x1 = Math.min(width, x1);
+        y1 = Math.min(height, y1);
 
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
@@ -100,8 +96,7 @@ public class Level {
         e.init(this);
         if (e instanceof Player) {
             player = (Player) e;
-        }
-        else if (e instanceof Enemy) {
+        } else if (e instanceof Enemy) {
             enemy = (Enemy) e;
         }
     }

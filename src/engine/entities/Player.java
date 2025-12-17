@@ -75,7 +75,9 @@ public class Player extends Entity {
 
     @Override
     public void render(Renderer renderer) {
-        System.out.println("x: " + (int)x + ", y: " + (int)y);
-        renderer.renderSprite((int) x, (int) y, sprite, true);
+        System.out.println("x: " + (int) x + ", y: " + (int) y);
+        int drawX = (int) Math.round(x - renderer.camera.getxOffset());
+        int drawY = (int) Math.round(y - renderer.camera.getyOffset());
+        renderer.renderSprite(drawX, drawY, sprite, false);
     }
 }

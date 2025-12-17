@@ -17,7 +17,7 @@ public class Enemy extends Entity {
     private boolean walking = true;
     private List<Node> path = null;
     private int nextPos;
-    private double speed = 1.5;
+    private double speed = 2.5;
     private int time = 0;
 
     private List<Vector2i> debugPath = new ArrayList<Vector2i>();
@@ -86,38 +86,27 @@ public class Enemy extends Entity {
 
             double dx = targetX - getPviot().getX();
             double dy = targetY - getPviot().getY();
-
             double distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < speed) {
-                // Snap exactly to tile center
-                x = targetX - sprite.getWidth() / 2;
-                y = targetY - sprite.getHeight() / 2;
+            if (distance > 0) {
+                double nx = dx / distance;
+                double ny = dy / distance;
 
-                nextPos--;
-
-                if (nextPos < 0) {
-                    path = null;
-                    walking = false;
-                    return;
-                }
+                x += nx * speed;
+                y += ny * speed;
             }
-            // System.out.println("PivotX: " + getPivot().getX() + " PivotY: " +
-            // getPivot().getY() + '\n' +
-            // "TileX: " + getPivot().getX() / 16 + " TileY: " + getPivot().getY() / 16);
-            // System.out.println("X: " + targetX + ", Y: " + targetY);
 
-            // Calculate Axis Movement toward the current target
-            if (getPviot().getX() < targetX)
-                xAxis = 1;
-            if (getPviot().getX() > targetX)
-                xAxis = -1;
-            if (getPviot().getY() < targetY)
-                yAxis = 1;
-            if (getPviot().getY() > targetY)
-                yAxis = -1;
+            if (distance <= speed) {
+                x += dx;
+                y += dy;
+                nextPos--;
+            }
 
-            // Note: The print statements for debugging are removed for clean code
+            if (nextPos < 0) {
+                path = null;
+                walking = false;
+                return;
+            }
         } else if (path != null) {
             // Path exists but nextPos is out of bounds (path finished)
             path = null;
@@ -282,7 +271,11 @@ public class Enemy extends Entity {
 
     @Override
     public void render(Renderer renderer) {
-        renderer.renderSprite((int) x, (int) y, sprite, true);
+        System.out.println("Enemy X: " + x + " CamX: " + renderer.camera.getxOffset());
+
+        int drawX = (int) Math.round(x - renderer.camera.getxOffset());
+        int drawY = (int) Math.round(y - renderer.camera.getyOffset());
+        renderer.renderSprite(drawX, drawY, sprite, false);
 
         for (int i = 0; i < debugPath.size(); i++) {
             renderer.renderPixel(debugPath.get(i).getX(), debugPath.get(i).getY(), 0xfffff000);

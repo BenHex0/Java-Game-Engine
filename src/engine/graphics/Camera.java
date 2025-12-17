@@ -1,7 +1,5 @@
 package engine.graphics;
 
-import engine.utilities.Vector2i;
-
 public class Camera {
     private double xOffset, yOffset;
     private int screenWidth, screenHeight;
@@ -11,12 +9,12 @@ public class Camera {
         this.screenHeight = screenHeight;
     }
 
-    public int getxOffset() {
-        return (int) Math.round(xOffset);
+    public double getxOffset() {
+        return xOffset;
     }
 
-    public int getyOffset() {
-        return (int) Math.round(yOffset);
+    public double getyOffset() {
+        return yOffset;
     }
 
     public void setOffset(int xOffset, int yOffset) {
