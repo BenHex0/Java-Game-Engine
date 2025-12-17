@@ -18,23 +18,8 @@ public class SpwanLevel extends Level {
         start();
     }
 
-    public SpwanLevel(String path) {
-        super(path);
-        start();
-    }
-
-    protected void loadLevel(String path) {
-        try {
-            java.io.File file = new java.io.File(path);
-            BufferedImage image = ImageIO.read(file);
-            width = image.getWidth();
-            height = image.getHeight();
-            tiles = new int[width * height];
-            image.getRGB(0, 0, width, height, tiles, 0, width);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public SpwanLevel(String path, InputHandler input) {
+        super(path, input);
         start();
     }
 

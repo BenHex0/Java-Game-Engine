@@ -12,7 +12,7 @@ import engine.input.InputHandler;
 import engine.levels.tiles.*;
 
 public class Level {
-    protected int width, height;
+    protected int worldWidth, worldHeight;
     protected int[] tilesInt;
     protected int[] tiles;
 
@@ -22,15 +22,16 @@ public class Level {
     public List<Entity> entities = new ArrayList<Entity>();
 
     public Level(int width, int height, InputHandler input) {
-        this.width = width;
-        this.height = height;
+        this.worldWidth = width;
+        this.worldHeight = height;
         this.input = input;
         tilesInt = new int[width * height];
         tiles = new int[width * height];
         generateLevel();
     }
 
-    public Level(String path) {
+    public Level(String path, InputHandler input) {
+        this.input = input;
         loadLevel(path);
         System.out.println("Generating level...");
     }
@@ -38,7 +39,7 @@ public class Level {
     private Random random = new Random();
 
     protected void generateLevel() {
-        for (int i = 0; i < width * height; i++) {
+        for (int i = 0; i < worldWidth * worldHeight; i++) {
             tiles[i] = random.nextInt(8);
         }
     }
@@ -47,10 +48,10 @@ public class Level {
         try {
             java.io.File file = new java.io.File(path);
             BufferedImage image = ImageIO.read(file);
-            width = image.getWidth();
-            height = image.getHeight();
-            tiles = new int[width * height];
-            image.getRGB(0, 0, width, height, tiles, 0, width);
+            worldWidth = image.getWidth();
+            worldHeight = image.getHeight();
+            tiles = new int[worldWidth * worldHeight];
+            image.getRGB(0, 0, worldWidth, worldHeight, tiles, 0, worldWidth);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +66,7 @@ public class Level {
             e.update();
         }
 
-       currentLevelUpdate();
+        currentLevelUpdate();
     }
 
     public void render(Renderer renderer) {
@@ -87,8 +88,8 @@ public class Level {
 
         x0 = Math.max(0, x0);
         y0 = Math.max(0, y0);
-        x1 = Math.min(width, x1);
-        y1 = Math.min(height, y1);
+        x1 = Math.min(worldWidth, x1);
+        y1 = Math.min(worldHeight, y1);
 
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
@@ -103,7 +104,7 @@ public class Level {
     }
 
     // public void addCurrentLevel(Level level) {
-    //     this.currentLevel = level;
+    // this.currentLevel = level;
     // }
 
     // grass0 = green => 0xff1CC809
@@ -123,33 +124,16 @@ public class Level {
     };
 
     public Tile getTile(int x, int y) {
-
-        if (x < 0 || y < 0 || x >= width || y >= height)
+        if (x < 0 || y < 0 || x >= worldWidth || y >= worldHeight)
             return Tile.voidTile;
-        if (tiles[x + y * width] == 0)
-            return grassTiles[0];
-        if (tiles[x + y * width] == 1)
-            return grassTiles[1];
-        if (tiles[x + y * width] == 2)
-            return grassTiles[2];
-        if (tiles[x + y * width] == 3)
-            return grassTiles[3];
-        if (tiles[x + y * width] == 4)
-            return grassTiles[4];
-        if (tiles[x + y * width] == 5)
-            return grassTiles[5];
-        if (tiles[x + y * width] == 6)
-            return grassTiles[6];
-        if (tiles[x + y * width] == 7)
-            return grassTiles[7];
-        if (tiles[x + y * width] == 8)
-            return grassTiles[8];
-        // if (tiles[x + y * width] == 0xff1CC809)
-        // return Tile.grass0;
-        // if (tiles[x + y * width] == 0xffF4E80B)
-        // return Tile.grass1;
-        // if (tiles[x + y * width] == 0xff703405)
-        // return Tile.tree;
+        if (tiles[x + y * worldWidth] == 0)
+            return Tile.grass0;
+        if (tiles[x + y * worldWidth] == 0xff1CC809)
+            return Tile.grass0;
+        if (tiles[x + y * worldWidth] == 0xffF4E80B)
+            return Tile.grass1;
+        if (tiles[x + y * worldWidth] == 0xff703405)
+            return Tile.grass1;
         return Tile.voidTile;
     }
 }
