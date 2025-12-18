@@ -23,7 +23,7 @@ public class Enemy extends Entity {
     private int nextPos;
     private double speed = 2.5;
     private int time = 0;
-    private Level level;
+    // private Level level;
 
     private List<Vector2i> debugPath = new ArrayList<Vector2i>();
 
@@ -36,7 +36,7 @@ public class Enemy extends Entity {
     public void update() {
         xAxis = 0;
         yAxis = 0;
-        // pathFindingMove();
+        pathFindingMove();
 
         if (path != null) {
             debugPath.clear();
