@@ -8,7 +8,6 @@ import engine.graphics.SpriteSheet;
 import engine.input.InputHandler;
 import engine.sound.Sound;
 
-
 public class Player extends Entity {
 
     private InputHandler input;
@@ -67,7 +66,7 @@ public class Player extends Entity {
             // move right
             xAxis = 1;
         }
-        
+
     }
 
     void move(int xAxis, int yAxis, double speed) {
@@ -75,31 +74,33 @@ public class Player extends Entity {
         if (xAxis > 0) {
             dir = Direction.RIGHT;
             walking = true;
-        }
-        else if (xAxis < 0) {
+        } else if (xAxis < 0) {
             dir = Direction.LEFT;
             walking = true;
-        }
-        else if (yAxis > 0) {
+        } else if (yAxis > 0) {
             dir = Direction.DOWN;
             walking = true;
-        }
-        else if (yAxis < 0) {
+        } else if (yAxis < 0) {
             dir = Direction.UP;
             walking = true;
-        }
-        else {
+        } else {
             walking = false;
         }
 
         // Move X
         if (xAxis != 0) {
-            x += (Math.signum(xAxis) * speed);
+            double stepX = Math.signum(xAxis) * speed;
+            if (!collision(stepX, 0)) {
+                this.x += stepX;
+            }
         }
 
         // Move Y
         if (yAxis != 0) {
-            y += ((Math.signum(yAxis) * speed) * -1);
+            double stepY = (Math.signum(yAxis) * speed) * -1;
+            if (!collision(0, stepY)) {
+                this.y += stepY;
+            }
         }
     }
 
