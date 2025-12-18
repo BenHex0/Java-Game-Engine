@@ -8,23 +8,23 @@ public class Tile {
 
     /// ** last version **///
     ////////////////////////////////////////////////////////////////////////////////////////
-    public static Tile hut = new Grass_0_Tile(Sprite.hut);
-    public static Tile water0 = new Grass_0_Tile(Sprite.water0);
-    public static Tile water1 = new Grass_0_Tile(Sprite.water1);
-    public static Tile tree0 = new Grass_0_Tile(Sprite.tree0);
-    public static Tile tree1 = new Grass_0_Tile(Sprite.tree1);
+    public static Tile hut = new Hut(Sprite.hut);
+    public static Tile water0 = new Water(Sprite.water0);
+    public static Tile water1 = new Water(Sprite.water1);
+    public static Tile tree0 = new Tree(Sprite.tree0);
+    public static Tile tree1 = new Tree(Sprite.tree1);
 
-    public static Tile grassFlat = new Grass_0_Tile(Sprite.grassFlat);
-    public static Tile grassDetail = new Grass_0_Tile(Sprite.grassDetail);
+    public static Tile grassFlat = new GrassInner(Sprite.grassFlat);
+    public static Tile grassDetail = new GrassInner(Sprite.grassDetail);
     
-    public static Tile grassWaterLeft = new Grass_0_Tile(Sprite.grassWaterLeft);
-    public static Tile grassWaterRight = new Grass_0_Tile(Sprite.grassWaterRight);
-    public static Tile grassWaterUp = new Grass_0_Tile(Sprite.grassWaterUp);
-    public static Tile grassWaterDown = new Grass_0_Tile(Sprite.grassWaterDown);
-    public static Tile grassWaterUpLeft = new Grass_0_Tile(Sprite.grassWaterUpLeft);
-    public static Tile grassWaterUpRight = new Grass_0_Tile(Sprite.grassWaterUpRight);
-    public static Tile grassWaterDownLeft = new Grass_0_Tile(Sprite.grassWaterDownLeft);
-    public static Tile grassWaterDownRight = new Grass_0_Tile(Sprite.grassWaterDownRight);
+    public static Tile grassWaterLeft = new GrassWaterEdge(Sprite.grassWaterLeft);
+    public static Tile grassWaterRight = new GrassWaterEdge(Sprite.grassWaterRight);
+    public static Tile grassWaterUp = new GrassWaterEdge(Sprite.grassWaterUp);
+    public static Tile grassWaterDown = new GrassWaterEdge(Sprite.grassWaterDown);
+    public static Tile grassWaterUpLeft = new GrassWaterEdge(Sprite.grassWaterUpLeft);
+    public static Tile grassWaterUpRight = new GrassWaterEdge(Sprite.grassWaterUpRight);
+    public static Tile grassWaterDownLeft = new GrassWaterEdge(Sprite.grassWaterDownLeft);
+    public static Tile grassWaterDownRight = new GrassWaterEdge(Sprite.grassWaterDownRight);
     ////////////////////////////////////////////////////////////////////////////////////////
 
     //// world tiles
