@@ -5,7 +5,6 @@ import engine.graphics.Sprite;
 import engine.levels.Level;
 import engine.utilities.Vector2i;
 
-
 public abstract class Entity {
     // position in pixels
     protected double x, y;
@@ -45,5 +44,25 @@ public abstract class Entity {
 
     public void init(Level level) {
         this.level = level;
+    }
+
+    public boolean collision(double xAxis, double yAxis) {
+        boolean solid = false;
+
+        for (int c = 0; c < 4; c++) {
+            double xt = ((x + xAxis) - (c % 2) * 10 + 4) / 16;
+            double yt = ((y + yAxis) - (c / 2) * 8 + 7) / 16;
+            int ix = (int) Math.ceil(xt);
+            int iy = (int) Math.ceil(yt);
+            if (c % 2 == 0)
+                ix = (int) Math.floor(xt);
+            if (c / 2 == 0)
+                iy = (int) Math.floor(yt);
+            if (level.getTile(ix, iy).solid()) {
+                solid = true;
+            }
+        }
+
+        return solid;
     }
 }

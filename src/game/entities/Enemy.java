@@ -34,7 +34,7 @@ public class Enemy extends Entity {
     public void update() {
         xAxis = 0;
         yAxis = 0;
-        // pathFindingMove();
+        pathFindingMove();
 
         if (path != null) {
             debugPath.clear();
