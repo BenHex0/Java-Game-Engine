@@ -1,16 +1,19 @@
 package game.entities;
 
 import engine.entities.Entity;
+import engine.graphics.Animation;
 import engine.graphics.Renderer;
 import engine.graphics.Sprite;
+import engine.graphics.SpriteSheet;
 import engine.input.InputHandler;
+
 
 public class Player extends Entity {
 
     private InputHandler input;
     private int xAxis, yAxis;
-    private int animate = 0;
-    private boolean walking = true;
+    private Animation anim_down = new Animation(SpriteSheet.playerAnimDown, 16, 16, 2);
+    private boolean walking = false;
     private double speed = 3.5;
     public boolean die = false;
 
@@ -25,43 +28,58 @@ public class Player extends Entity {
         xAxis = 0;
         yAxis = 0;
         control();
+
+        if (walking) {
+            anim_down.update();
+        }
         move(xAxis, yAxis, speed);
     }
 
     void control() {
         if (input.isKeyPressed(InputHandler.Key.UP)) {
-            System.out.println("W");
+            // System.out.println("W");
             // move up
             yAxis = 1;
         }
         if (input.isKeyPressed(InputHandler.Key.DOWN)) {
-            System.out.println("S");
+            // System.out.println("S");
             // move down
             yAxis = -1;
         }
         if (input.isKeyPressed(InputHandler.Key.LEFT)) {
-            System.out.println("A");
+            // System.out.println("A");
             // move left
             xAxis = -1;
         }
         if (input.isKeyPressed(InputHandler.Key.RIGHT)) {
-            System.out.println("D");
+            // System.out.println("D");
             // move right
             xAxis = 1;
         }
-
+        
     }
 
     void move(int xAxis, int yAxis, double speed) {
 
-        if (xAxis > 0)
+        if (xAxis > 0) {
             dir = Direction.RIGHT;
-        else if (xAxis < 0)
+            walking = true;
+        }
+        else if (xAxis < 0) {
             dir = Direction.LEFT;
-        else if (yAxis > 0)
+            walking = true;
+        }
+        else if (yAxis > 0) {
             dir = Direction.DOWN;
-        else if (yAxis < 0)
+            walking = true;
+        }
+        else if (yAxis < 0) {
             dir = Direction.UP;
+            walking = true;
+        }
+        else {
+            walking = false;
+        }
 
         // Move X
         if (xAxis != 0) {
@@ -76,6 +94,7 @@ public class Player extends Entity {
 
     @Override
     public void render(Renderer renderer) {
+        sprite = anim_down.getSprite();
         renderer.camera.cameraTarget(x, y, sprite.getWidth(), sprite.getHeight());
         int drawX = (int) Math.round(x - renderer.camera.getxOffset());
         int drawY = (int) Math.round(y - renderer.camera.getyOffset());

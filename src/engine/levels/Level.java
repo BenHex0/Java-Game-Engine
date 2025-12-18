@@ -111,29 +111,17 @@ public class Level {
     // grass1 = green + yello => 0xffF4E80B
     // tree = brown => 0xff703405
 
-    Tile[] grassTiles = {
-            Tile.grass0,
-            Tile.grass1,
-            Tile.grass2,
-            Tile.grass3,
-            Tile.grass4,
-            Tile.grass5,
-            Tile.grass6,
-            Tile.grass7,
-            Tile.grass8
-    };
-
     public Tile getTile(int x, int y) {
         if (x < 0 || y < 0 || x >= worldWidth || y >= worldHeight)
             return Tile.voidTile;
         if (tiles[x + y * worldWidth] == 0)
             return Tile.grass0;
         if (tiles[x + y * worldWidth] == 0xff1CC809)
-            return Tile.grass0;
+            return Tile.grass3;
         if (tiles[x + y * worldWidth] == 0xffF4E80B)
             return Tile.grass1;
         if (tiles[x + y * worldWidth] == 0xff703405)
-            return Tile.grass1;
+            return Tile.grass8;
         return Tile.voidTile;
     }
 }
