@@ -8,8 +8,8 @@ import java.util.List;
 import engine.entities.Entity;
 import engine.graphics.Renderer;
 import engine.graphics.Sprite;
-import engine.levels.tiles.Node;
 import engine.levels.tiles.Tile;
+import engine.utilities.Node;
 import engine.utilities.Vector2i;
 
 
@@ -34,7 +34,7 @@ public class Enemy extends Entity {
     public void update() {
         xAxis = 0;
         yAxis = 0;
-        pathFindingMove();
+        // pathFindingMove();
 
         if (path != null) {
             debugPath.clear();

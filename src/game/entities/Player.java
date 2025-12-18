@@ -6,15 +6,18 @@ import engine.graphics.Renderer;
 import engine.graphics.Sprite;
 import engine.graphics.SpriteSheet;
 import engine.input.InputHandler;
+import engine.sound.Sound;
 
 
 public class Player extends Entity {
 
     private InputHandler input;
+    private Sound soundEffect;
     private int xAxis, yAxis;
     private Animation anim_down = new Animation(SpriteSheet.playerAnimDown, 16, 16, 2);
     private boolean walking = false;
     private double speed = 3.5;
+    private boolean once = true;
     public boolean die = false;
 
     public Player(double x, double y, InputHandler inputHandler) {
@@ -22,17 +25,25 @@ public class Player extends Entity {
         this.y = y;
         this.input = inputHandler;
         sprite = Sprite.player;
+        soundEffect = new Sound();
+        soundEffect.setFile(1);
     }
 
     public void update() {
         xAxis = 0;
         yAxis = 0;
-        control();
 
-        if (walking) {
-            anim_down.update();
+        if (!die) {
+            control();
+
+            if (walking) {
+                anim_down.update();
+            }
+            move(xAxis, yAxis, speed);
+        } else if (once) {
+            soundEffect.play();
+            once = false;
         }
-        move(xAxis, yAxis, speed);
     }
 
     void control() {
@@ -94,10 +105,12 @@ public class Player extends Entity {
 
     @Override
     public void render(Renderer renderer) {
-        sprite = anim_down.getSprite();
-        renderer.camera.cameraTarget(x, y, sprite.getWidth(), sprite.getHeight());
-        int drawX = (int) Math.round(x - renderer.camera.getxOffset());
-        int drawY = (int) Math.round(y - renderer.camera.getyOffset());
-        renderer.renderSprite(drawX, drawY, sprite, false);
+        if (!die) {
+            sprite = anim_down.getSprite();
+            renderer.camera.cameraTarget(x, y, sprite.getWidth(), sprite.getHeight());
+            int drawX = (int) Math.round(x - renderer.camera.getxOffset());
+            int drawY = (int) Math.round(y - renderer.camera.getyOffset());
+            renderer.renderSprite(drawX, drawY, sprite, false);
+        }
     }
 }

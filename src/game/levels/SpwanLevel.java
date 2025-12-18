@@ -5,11 +5,11 @@ import engine.input.InputHandler;
 import engine.levels.Level;
 import game.entities.*;
 import engine.sound.Sound;
+import engine.utilities.TileCoordinate;
 import engine.database.Database;
 
 public class SpwanLevel extends Level {
 
-    private boolean playSound = true;
     private int timer = 0;
 
     Database database;
@@ -28,8 +28,10 @@ public class SpwanLevel extends Level {
     }
 
     void start() {
-        player = new Player(30, 15, input);
-        enemy = new Enemy(10, 10);
+        TileCoordinate playerPosition = new TileCoordinate(10, 10);
+        player = new Player(playerPosition.x(), playerPosition.y(), input);
+        TileCoordinate enemyPosition = new TileCoordinate(1, 1);
+        enemy = new Enemy(enemyPosition.x(), enemyPosition.y());
         database = new Database();
         add(player);
         add(enemy);
@@ -45,13 +47,10 @@ public class SpwanLevel extends Level {
         timer++;
         kill(player, enemy);
 
-        if (timer % 120 == 0) {
-            playSound = true;
-        }
-
         if (input.isKeyPressed(InputHandler.Key.JUMP)) {
             System.out.println("Save Score");
             database.saveScore("Hello", 69);
+            database.close();
         }
     }
 
@@ -64,13 +63,8 @@ public class SpwanLevel extends Level {
 
     void kill(Entity e1, Entity e2) {
         if (isColliding(e1, e2)) {
-            sound.setFile(1);
-            if (playSound) {
-                sound.play();
-                playSound = false;
-            }
-            // System.out.println("Dead!");
-            // player.die = true;
+            System.out.println("Dead!");
+            player.die = true;
         }
     }
 
