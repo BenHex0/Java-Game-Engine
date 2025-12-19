@@ -5,28 +5,35 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import engine.Engine;
+import engine.input.InputHandler;
 
 public class UI {
 
     private Rectangle startBtn;
     private Rectangle optionsBtn;
     private Rectangle exitBtn;
-
+    private InputHandler input;
     private int mouseX, mouseY;
     private boolean mousePressed;
 
-    public UI(int screenWidth, int screenHeight) {
+    public UI(int screenWidth, int screenHeight, InputHandler input) {
         int btnWidth = 220;
         int btnHeight = 50;
         int x = (screenWidth - btnWidth) / 2;
         int y = screenHeight / 2;
-        
+        this.input = input;
         startBtn = new Rectangle(x, y, btnWidth, btnHeight);
         optionsBtn = new Rectangle(x, y + 70, btnWidth, btnHeight);
         exitBtn = new Rectangle(x, y + 140, btnWidth, btnHeight);
     }
 
     public void update() {
+        if (input.isKeyPressed(InputHandler.Key.ENTER)) {
+            System.out.println("Go");
+            Engine.gameState = Engine.gameplay;
+        }
+
         // click handling
         if (mousePressed) {
             if (startBtn.contains(mouseX, mouseY)) {
