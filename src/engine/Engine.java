@@ -3,6 +3,8 @@ package engine;
 import engine.graphics.Renderer;
 import engine.input.InputHandler;
 import engine.levels.*;
+import engine.ui.DeathScreen;
+import engine.ui.MainMenu;
 import engine.ui.UI;
 import game.levels.*;
 import java.awt.*;
@@ -12,10 +14,10 @@ import javax.swing.JFrame;
 public class Engine extends Canvas implements Runnable {
 
     // screen settings
-    final double aspectRatio = 16.0 / 9.0;
-    final int screenWidth = 500;
-    final int screenHeight = (int) (screenWidth / aspectRatio);
-    final int scale = 3;
+    final static double aspectRatio = 16.0 / 9.0;
+    final static int screenWidth = 500;
+    final static int screenHeight = (int) (screenWidth / aspectRatio);
+    final static int scale = 3;
 
     private Thread gameThread;
     JFrame window;
@@ -24,19 +26,23 @@ public class Engine extends Canvas implements Runnable {
     // modules
     private static InputHandler inputHandler;
     private Renderer renderer;
-    private static Level currentLevel;
-    private UI ui;
+
+    // UI
+    private static UI currentUI;
+    // private static MainMenu mainMenu ;
+    // private static DeathScreen deathScreen = new DeathScreen(screenWidth * scale,
+    // screenHeight * scale, inputHandler);
 
     // Levels
-    static Level3 spwanLevel;
-    static Level3 spwanLevel1;
-    static Level3 spwanLevel2;
+    public static Level currentLevel;
+
 
     // GAME STATE
     public static int gameState = 0;
     public static int menu = 1;
     public static int gameplay = 2;
     public static int endGame = 3;
+    public static int gamePause = 4;
 
     public Engine() {
         Dimension size = new Dimension(screenWidth * scale, screenHeight * scale);
@@ -45,9 +51,11 @@ public class Engine extends Canvas implements Runnable {
         inputHandler = new InputHandler();
         addKeyListener(inputHandler);
         renderer = new Renderer(screenWidth, screenHeight);
-
-        ui = new UI(screenWidth, screenHeight, inputHandler);
         gameState = menu;
+    }
+
+    public static void restartLevel() {
+
     }
 
     public static void setCurrentLevel(int level) {
@@ -57,6 +65,14 @@ public class Engine extends Canvas implements Runnable {
             currentLevel = new Level2("assets/world/MapWaterEdgeBig.png", inputHandler);
         } else if (level == 3) {
             currentLevel = new Level3("assets/world/MapWaterHard200.png", inputHandler);
+        }
+    }
+
+    public static void setCurrentUI(int ui) {
+        if (ui == 1) {
+            currentUI = new MainMenu(screenWidth * scale, screenHeight * scale, inputHandler);
+        } else if (ui == 2) {
+            currentUI = new DeathScreen(screenWidth * scale, screenHeight * scale, inputHandler);
         }
     }
 
@@ -88,6 +104,7 @@ public class Engine extends Canvas implements Runnable {
         requestFocus();
 
         setCurrentLevel(1);
+        setCurrentUI(1);
 
         // main game loop
         while (running) {
@@ -112,12 +129,12 @@ public class Engine extends Canvas implements Runnable {
     }
 
     public void update() {
-        if (gameState == menu) {
-            ui.update();
+        if (gameState == menu || gameState == gamePause) {
+            currentUI.update();
         } else if (gameState == gameplay) {
             currentLevel.update();
         } else if (gameState == endGame) {
-            ui.update();
+            currentUI.update();
         }
     }
 
@@ -129,24 +146,30 @@ public class Engine extends Canvas implements Runnable {
         }
         Graphics g = bs.getDrawGraphics();
 
-        if (gameState == gameplay) {
+        if (gameState == gameplay || gameState == gamePause) {
             renderer.clear();
             currentLevel.render(renderer);
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(renderer.frame, 0, 0, screenWidth * scale, screenHeight * scale, null);
+
+            if (gameState == gamePause) {
+                currentUI.render(g);
+            }
+
             g.dispose();
             bs.show();
+
         } else if (gameState == menu) {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
-            ui.render(g);
+            currentUI.render(g);
             g.dispose();
             bs.show();
         } else if (gameState == endGame) {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
-            ui.render(g);
+            currentUI.render(g);
             g.dispose();
             bs.show();
         }
