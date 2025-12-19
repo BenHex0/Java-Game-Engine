@@ -45,7 +45,7 @@ public class Engine extends Canvas implements Runnable {
 
         ui = new UI(screenWidth, screenHeight);
 
-        spwanLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
+        spwanLevel = new SpwanLevel("assets/world/MapWaterHard200.png", inputHandler);
         currentLevel = spwanLevel;
     }
 

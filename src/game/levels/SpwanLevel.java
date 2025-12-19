@@ -1,12 +1,12 @@
 package game.levels;
 
+import engine.database.Database;
 import engine.entities.Entity;
 import engine.input.InputHandler;
 import engine.levels.Level;
-import game.entities.*;
 import engine.sound.Sound;
 import engine.utilities.TileCoordinate;
-import engine.database.Database;
+import game.entities.*;
 
 public class SpwanLevel extends Level {
 
@@ -28,9 +28,9 @@ public class SpwanLevel extends Level {
     }
 
     void start() {
-        TileCoordinate playerPosition = new TileCoordinate(10, 10);
+        TileCoordinate playerPosition = new TileCoordinate(137, 15);
         player = new Player(playerPosition.x(), playerPosition.y(), input);
-        TileCoordinate enemyPosition = new TileCoordinate(5, 5);
+        TileCoordinate enemyPosition = new TileCoordinate(137, 7);
         enemy = new Enemy(enemyPosition.x(), enemyPosition.y());
         database = new Database();
         add(player);
@@ -55,10 +55,10 @@ public class SpwanLevel extends Level {
     }
 
     boolean isColliding(Entity a, Entity b) {
-        return a.getX() < b.getX() + b.getSprite().getWidth() &&
-                a.getX() + a.getSprite().getWidth() > b.getX() &&
-                a.getY() < b.getY() + b.getSprite().getHeight() &&
-                a.getY() + a.getSprite().getHeight() > b.getY();
+        return a.getX() < b.getX() + b.getSprite().getWidth()
+                && a.getX() + a.getSprite().getWidth() > b.getX()
+                && a.getY() < b.getY() + b.getSprite().getHeight()
+                && a.getY() + a.getSprite().getHeight() > b.getY();
     }
 
     void kill(Entity e1, Entity e2) {
