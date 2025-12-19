@@ -22,18 +22,21 @@ public class Engine extends Canvas implements Runnable {
     private boolean running = false;
 
     // modules
-    private InputHandler inputHandler;
+    private static InputHandler inputHandler;
     private Renderer renderer;
-    private Level currentLevel;
+    private static Level currentLevel;
     private UI ui;
 
     // Levels
-    SpwanLevel spwanLevel;
+    static SpwanLevel spwanLevel;
+    static SpwanLevel spwanLevel1;
+    static SpwanLevel spwanLevel2;
 
     // GAME STATE
-    public int gameState = 1;
-    public final int gameState2 = 2;
-
+    public static int gameState = 0;
+    public static int menu = 1;
+    public static int gameplay = 2;
+    public static int endGame = 3;
 
     public Engine() {
         Dimension size = new Dimension(screenWidth * scale, screenHeight * scale);
@@ -43,10 +46,18 @@ public class Engine extends Canvas implements Runnable {
         addKeyListener(inputHandler);
         renderer = new Renderer(screenWidth, screenHeight);
 
-        ui = new UI(screenWidth, screenHeight);
+        ui = new UI(screenWidth, screenHeight, inputHandler);
+        gameState = menu;
+    }
 
-        spwanLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
-        currentLevel = spwanLevel;
+    public static void setCurrentLevel(int level) {
+        if (level == 1) {
+            currentLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
+        } else if (level == 2) {
+            currentLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
+        } else if (level == 3) {
+            currentLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
+        }
     }
 
     public synchronized void start() {
@@ -75,7 +86,7 @@ public class Engine extends Canvas implements Runnable {
         int frames = 0;
         int updates = 0;
         requestFocus();
-
+        setCurrentLevel(1);
         // main game loop
         while (running) {
             long currentTime = System.nanoTime();
@@ -98,15 +109,14 @@ public class Engine extends Canvas implements Runnable {
         }
     }
 
-
     public void update() {
-        currentLevel.update();
-
-        // if (inputHandler.isKeyPressed(Key.DOWN)) {
-        // gameState = 2;
-        // } else if (inputHandler.isKeyPressed(Key.UP)) {
-        // gameState = 1;
-        // }
+        if (gameState == menu) {
+            ui.update();
+        } else if (gameState == gameplay) {
+            currentLevel.update();
+        } else if (gameState == endGame) {
+            ui.update();
+        }
     }
 
     public void render() {
@@ -117,19 +127,21 @@ public class Engine extends Canvas implements Runnable {
         }
         Graphics g = bs.getDrawGraphics();
 
-        if (gameState == 1) {
+        if (gameState == gameplay) {
             renderer.clear();
-
             currentLevel.render(renderer);
-
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(renderer.frame, 0, 0, screenWidth * scale, screenHeight * scale, null);
             g.dispose();
             bs.show();
-        }
-
-        if (gameState == 2) {
+        } else if (gameState == menu) {
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
+            ui.render(g);
+            g.dispose();
+            bs.show();
+        } else if (gameState == endGame) {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
             ui.render(g);
