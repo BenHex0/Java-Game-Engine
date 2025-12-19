@@ -68,7 +68,7 @@ public class InputHandler implements KeyListener {
         // Not used
     }
 
-    // --- Overloads using Enum ---
+    // Overloads using Enum
     public boolean isKeyDown(Key key) {
         return isKeyDown(key.getKeyCode());
     }
