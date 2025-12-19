@@ -1,6 +1,7 @@
-package engine.levels.tiles;
+package engine.levels.tile.tiles;
 
 import engine.graphics.*;
+import engine.levels.tile.Tile;
 
 public class Grass_0_Tile extends Tile {
 

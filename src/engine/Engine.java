@@ -3,10 +3,12 @@ package engine;
 import engine.graphics.Renderer;
 import engine.input.InputHandler;
 import engine.levels.*;
-import engine.ui.DeathScreen;
-import engine.ui.MainMenu;
 import engine.ui.UI;
 import game.levels.*;
+import game.ui.DeathScreen;
+import game.ui.LevelFinished;
+import game.ui.MainMenu;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
@@ -29,9 +31,6 @@ public class Engine extends Canvas implements Runnable {
 
     // UI
     private static UI currentUI;
-    // private static MainMenu mainMenu ;
-    // private static DeathScreen deathScreen = new DeathScreen(screenWidth * scale,
-    // screenHeight * scale, inputHandler);
 
     // Levels
     public static Level currentLevel;
@@ -54,10 +53,6 @@ public class Engine extends Canvas implements Runnable {
         gameState = menu;
     }
 
-    public static void restartLevel() {
-
-    }
-
     public static void setCurrentLevel(int level) {
         if (level == 1) {
             currentLevel = new Level1("assets/world/MapWaterEdge.png", inputHandler);
@@ -73,6 +68,8 @@ public class Engine extends Canvas implements Runnable {
             currentUI = new MainMenu(screenWidth * scale, screenHeight * scale, inputHandler);
         } else if (ui == 2) {
             currentUI = new DeathScreen(screenWidth * scale, screenHeight * scale, inputHandler);
+        } else if (ui == 3) {
+            currentUI = new LevelFinished(screenWidth * scale, screenHeight * scale, inputHandler);
         }
     }
 
@@ -136,6 +133,7 @@ public class Engine extends Canvas implements Runnable {
         } else if (gameState == endGame) {
             currentUI.update();
         }
+        inputHandler.update();
     }
 
     public void render() {

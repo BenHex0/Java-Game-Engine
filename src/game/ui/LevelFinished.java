@@ -1,16 +1,16 @@
-package engine.ui;
+package game.ui;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-
-import engine.input.InputHandler;
+import engine.ui.UI;
 import engine.Engine;
+import engine.input.InputHandler;
 
-public class DeathScreen extends UI {
-
-    public DeathScreen(int screenWidth, int screenHeight, InputHandler input) {
+public class LevelFinished extends UI{
+    
+    public LevelFinished(int screenWidth, int screenHeight, InputHandler input) {
         super(screenWidth, screenHeight, input);
     }
 
@@ -25,7 +25,7 @@ public class DeathScreen extends UI {
     @Override
     public void render(Graphics g) {
 
-        String text = "DEAD";
+        String text = "You Win";
         int fontSize = 100;
 
         // Background
@@ -35,7 +35,7 @@ public class DeathScreen extends UI {
         // Font
         Font font = new Font("Arial", Font.BOLD, fontSize);
         g.setFont(font);
-        g.setColor(Color.RED);
+        g.setColor(Color.CYAN);
 
         // Measure text
         FontMetrics fm = g.getFontMetrics();
@@ -46,9 +46,12 @@ public class DeathScreen extends UI {
         // Center position
         int x = (screenWidth - textWidth) / 2;
         int y = (screenHeight - textHeight) / 2 + fm.getAscent();
-
-        // Draw
         g.drawString(text, x, y);
-    }
 
+        g.setFont(new Font("Serif", Font.ITALIC, 16));
+        g.setColor(new Color(200, 200, 200));
+        String hint = "Press Enter to restart";
+        int hx = (screenWidth - g.getFontMetrics().stringWidth(hint)) / 2;
+        g.drawString(hint, hx, screenHeight - 50);
+    }
 }

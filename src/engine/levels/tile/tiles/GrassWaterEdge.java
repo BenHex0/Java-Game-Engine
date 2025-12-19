@@ -1,10 +1,11 @@
-package engine.levels.tiles;
+package engine.levels.tile.tiles;
 
 import engine.graphics.*;
+import engine.levels.tile.Tile;
 
-public class Water extends Tile {
+public class GrassWaterEdge extends Tile {
 
-    public Water(Sprite sprite) {
+    public GrassWaterEdge(Sprite sprite) {
         super(sprite);
     }
 

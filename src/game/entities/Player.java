@@ -46,22 +46,22 @@ public class Player extends Entity {
     }
 
     void control() {
-        if (input.isKeyPressed(InputHandler.Key.UP)) {
+        if (input.isKeyDown(InputHandler.Key.UP)) {
             // System.out.println("W");
             // move up
             yAxis = 1;
         }
-        if (input.isKeyPressed(InputHandler.Key.DOWN)) {
+        if (input.isKeyDown(InputHandler.Key.DOWN)) {
             // System.out.println("S");
             // move down
             yAxis = -1;
         }
-        if (input.isKeyPressed(InputHandler.Key.LEFT)) {
+        if (input.isKeyDown(InputHandler.Key.LEFT)) {
             // System.out.println("A");
             // move left
             xAxis = -1;
         }
-        if (input.isKeyPressed(InputHandler.Key.RIGHT)) {
+        if (input.isKeyDown(InputHandler.Key.RIGHT)) {
             // System.out.println("D");
             // move right
             xAxis = 1;
