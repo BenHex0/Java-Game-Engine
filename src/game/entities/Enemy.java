@@ -8,7 +8,7 @@ import java.util.List;
 import engine.entities.Entity;
 import engine.graphics.Renderer;
 import engine.graphics.Sprite;
-import engine.levels.tiles.Tile;
+import engine.levels.tile.Tile;
 import engine.utilities.Node;
 import engine.utilities.Vector2i;
 
