@@ -18,6 +18,7 @@ public class DeathScreen extends UI {
     public void update() {
         if (input.isKeyPressed(InputHandler.Key.ENTER)) {
             Engine.currentLevel.restartLevel();
+            Engine.gameState = Engine.gameplay;
         }
     }
 

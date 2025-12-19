@@ -62,6 +62,7 @@ public class Level1 extends Level {
         // player.getPviot().getY() / 16);
         // System.out.println("end: " + end.getXInTile() + " " + end.getYInTile());
 
+
         if (player.getPviot().getX() / 16 == end.getXInTile() && player.getPviot().getY() / 16 == end.getYInTile()) {
             stop = true;
             System.out.println("win!");
