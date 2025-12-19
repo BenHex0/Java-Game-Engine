@@ -4,7 +4,7 @@ import engine.graphics.Renderer;
 import engine.input.InputHandler;
 import engine.levels.*;
 import engine.ui.UI;
-import game.levels.SpwanLevel;
+import game.levels.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
@@ -28,9 +28,9 @@ public class Engine extends Canvas implements Runnable {
     private UI ui;
 
     // Levels
-    static SpwanLevel spwanLevel;
-    static SpwanLevel spwanLevel1;
-    static SpwanLevel spwanLevel2;
+    static Level3 spwanLevel;
+    static Level3 spwanLevel1;
+    static Level3 spwanLevel2;
 
     // GAME STATE
     public static int gameState = 0;
@@ -52,11 +52,11 @@ public class Engine extends Canvas implements Runnable {
 
     public static void setCurrentLevel(int level) {
         if (level == 1) {
-            currentLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
+            currentLevel = new Level1("assets/world/MapWaterEdge.png", inputHandler);
         } else if (level == 2) {
-            currentLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
+            currentLevel = new Level2("assets/world/MapWaterEdgeBig.png", inputHandler);
         } else if (level == 3) {
-            currentLevel = new SpwanLevel("assets/world/MapWaterEdge.png", inputHandler);
+            currentLevel = new Level3("assets/world/MapWaterHard200.png", inputHandler);
         }
     }
 
@@ -86,7 +86,9 @@ public class Engine extends Canvas implements Runnable {
         int frames = 0;
         int updates = 0;
         requestFocus();
+
         setCurrentLevel(1);
+
         // main game loop
         while (running) {
             long currentTime = System.nanoTime();

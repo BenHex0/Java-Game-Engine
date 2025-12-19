@@ -7,10 +7,9 @@ import engine.levels.Level;
 import engine.sound.Sound;
 import engine.utilities.TileCoordinate;
 import engine.Engine;
-import engine.database.Database;
 import game.entities.*;
 
-public class SpwanLevel extends Level {
+public class Level1 extends Level {
 
     private int timer = 0;
 
@@ -20,12 +19,12 @@ public class SpwanLevel extends Level {
     Enemy enemy;
     TileCoordinate end;
 
-    public SpwanLevel(int width, int height, InputHandler input) {
+    public Level1(int width, int height, InputHandler input) {
         super(width, height, input);
         start();
     }
 
-    public SpwanLevel(String path, InputHandler input) {
+    public Level1(String path, InputHandler input) {
         super(path, input);
         start();
     }
@@ -35,7 +34,7 @@ public class SpwanLevel extends Level {
         sound = new Sound();
         TileCoordinate playerPosition = new TileCoordinate(10, 10);
         player = new Player(playerPosition.x(), playerPosition.y(), input);
-        TileCoordinate enemyPosition = new TileCoordinate(137, 7);
+        TileCoordinate enemyPosition = new TileCoordinate(5, 5);
         enemy = new Enemy(enemyPosition.x(), enemyPosition.y());
         database = new Database();
         add(player);
@@ -72,7 +71,7 @@ public class SpwanLevel extends Level {
             System.out.println("win!");
             Engine.gameState = Engine.endGame;
             sound.stop();
-            Engine.setCurrentLevel(1);
+            Engine.setCurrentLevel(2);
         }
 
     }
