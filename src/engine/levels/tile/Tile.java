@@ -1,28 +1,31 @@
 package engine.levels.tile;
 
 import engine.graphics.*;
-import engine.levels.tile.tiles.GrassInner;
-import engine.levels.tile.tiles.GrassWaterEdge;
-import engine.levels.tile.tiles.Hut;
-import engine.levels.tile.tiles.Tree;
-import engine.levels.tile.tiles.VoidTile;
-import engine.levels.tile.tiles.Water;
+import engine.levels.tile.tiles.*;
 
 public class Tile {
-    public Sprite sprite;
 
+    public Sprite sprite;
 
     /// ** last version **///
     ////////////////////////////////////////////////////////////////////////////////////////
-    public static Tile hut = new Hut(Sprite.hut);
+    // Exit
+    public static Tile hut = new Exit(Sprite.hut);
+    public static Tile hole = new Exit(Sprite.hole);
+
+    // Solid
     public static Tile water0 = new Water(Sprite.water0);
     public static Tile water1 = new Water(Sprite.water1);
-    public static Tile tree0 = new Tree(Sprite.tree0);
-    public static Tile tree1 = new Tree(Sprite.tree1);
+    public static Tile tree0 = new Solid(Sprite.tree0);
+    public static Tile tree1 = new Solid(Sprite.tree1);
+    public static Tile wall = new Solid(Sprite.wall);
 
-    public static Tile grassFlat = new GrassInner(Sprite.grassFlat);
-    public static Tile grassDetail = new GrassInner(Sprite.grassDetail);
-    
+    // Walkable
+    public static Tile grassFlat = new Walkable(Sprite.grassFlat);
+    public static Tile grassDetail = new Walkable(Sprite.grassDetail);
+    public static Tile Dirt = new Walkable(Sprite.Dirt);
+
+    // Solid edge
     public static Tile grassWaterLeft = new GrassWaterEdge(Sprite.grassWaterLeft);
     public static Tile grassWaterRight = new GrassWaterEdge(Sprite.grassWaterRight);
     public static Tile grassWaterUp = new GrassWaterEdge(Sprite.grassWaterUp);
@@ -31,6 +34,7 @@ public class Tile {
     public static Tile grassWaterUpRight = new GrassWaterEdge(Sprite.grassWaterUpRight);
     public static Tile grassWaterDownLeft = new GrassWaterEdge(Sprite.grassWaterDownLeft);
     public static Tile grassWaterDownRight = new GrassWaterEdge(Sprite.grassWaterDownRight);
+
     ////////////////////////////////////////////////////////////////////////////////////////
 
     //// world tiles
