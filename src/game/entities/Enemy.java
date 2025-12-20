@@ -226,7 +226,7 @@ public class Enemy extends Entity {
     @Override
     public void render(Renderer renderer) {
         sprite = anim.getSprite();
-        renderer.camera.cameraTarget(x, y, sprite.getWidth(), sprite.getHeight());
+        // renderer.camera.cameraTarget(x, y, sprite.getWidth(), sprite.getHeight());
         int drawX = (int) Math.round(x - renderer.camera.getxOffset());
         int drawY = (int) Math.round(y - renderer.camera.getyOffset());
         renderer.renderSprite(drawX, drawY, sprite, false);

@@ -127,7 +127,7 @@ public class Player extends Entity {
     public void render(Renderer renderer) {
         if (!die) {
             sprite = anim.getSprite();
-            // renderer.camera.cameraTarget(x, y, sprite.getWidth(), sprite.getHeight());
+            renderer.camera.cameraTarget(x, y, sprite.getWidth(), sprite.getHeight());
             int drawX = (int) Math.round(x - renderer.camera.getxOffset());
             int drawY = (int) Math.round(y - renderer.camera.getyOffset());
             renderer.renderSprite(drawX, drawY, sprite, false);
