@@ -27,29 +27,28 @@ public class Database {
     }
 
     // Insert player score
-    public void saveScore(String playerName, int score) {
-        String sql = "INSERT INTO scores (player_name, score) VALUES (?, ?)";
+    public void saveScore(int score) {
+        String sql = "INSERT INTO scores (score) VALUES (?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, playerName);
-            ps.setInt(2, score);
+            ps.setInt(1, score);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Get top scores
-    public ResultSet getTopScores(int limit) {
-        try {
-            String sql = "SELECT * FROM scores ORDER BY score DESC LIMIT ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, limit);
-            return ps.executeQuery();
+    public int getTotalScore() {
+        String sql = "SELECT SUM(score) FROM scores";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return 0;
     }
 
     // Close DB on exit
