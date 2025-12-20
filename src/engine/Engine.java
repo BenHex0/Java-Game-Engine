@@ -18,7 +18,7 @@ public class Engine extends Canvas implements Runnable {
 
     // screen settings
     final static double aspectRatio = 16.0 / 9.0;
-    final static int screenWidth = 400;
+    final static int screenWidth = 500;
     final static int screenHeight = (int) (screenWidth / aspectRatio);
     final static int scale = 3;
 
