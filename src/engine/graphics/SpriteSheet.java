@@ -10,9 +10,9 @@ public class SpriteSheet {
     public final int HEIGHT;
     public int[] pixels;
 
-    // Player
+    // Playeras
     /////////////////////////////////////////////////////////////
-    public static SpriteSheet playerSheet = new SpriteSheet("assets/player/idle/PlayerSheet.png", 32, 64);
+    public static SpriteSheet playerSheet = new SpriteSheet("assets/player/idle/GreensBeans.png", 32, 64);
     public static SpriteSheet playerAnimDown = new SpriteSheet(playerSheet, 0, 0, 2, 1, 16);
     public static SpriteSheet playerAnimUp = new SpriteSheet(playerSheet, 0, 1, 2, 1, 16);
     public static SpriteSheet playerAnimLeft = new SpriteSheet(playerSheet, 0, 2, 2, 1, 16);
