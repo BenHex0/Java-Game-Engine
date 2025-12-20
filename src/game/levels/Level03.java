@@ -1,15 +1,15 @@
 package game.levels;
 
+import engine.Engine;
 import engine.database.Database;
 import engine.entities.Entity;
 import engine.input.InputHandler;
 import engine.levels.Level;
 import engine.sound.Sound;
 import engine.utilities.TileCoordinate;
-import engine.Engine;
 import game.entities.*;
 
-public class Level1 extends Level {
+public class Level03 extends Level {
 
     private int timer = 0;
     boolean startOnce = true;
@@ -19,12 +19,12 @@ public class Level1 extends Level {
     Enemy enemy;
     TileCoordinate end;
 
-    public Level1(int width, int height, InputHandler input) {
+    public Level03(int width, int height, InputHandler input) {
         super(width, height, input);
         start();
     }
 
-    public Level1(String path, InputHandler input) {
+    public Level03(String path, InputHandler input) {
         super(path, input);
         start();
     }
@@ -32,15 +32,15 @@ public class Level1 extends Level {
     void start() {
         deleteAllEntities();
         sound = new Sound();
-        TileCoordinate playerPosition = new TileCoordinate(70, 67);
+        TileCoordinate playerPosition = new TileCoordinate(6, 15);
         player = new Player(playerPosition.x(), playerPosition.y(), input);
-        TileCoordinate enemyPosition = new TileCoordinate(5, 6);
+        TileCoordinate enemyPosition = new TileCoordinate(6, 8);
         enemy = new Enemy(enemyPosition.x(), enemyPosition.y());
         database = new Database();
         add(player);
         add(enemy);
         enemy.target(player);
-        end = new TileCoordinate(70, 68);
+        end = new TileCoordinate(43, 37);
         sound.setFile(0);
     }
 
@@ -68,14 +68,14 @@ public class Level1 extends Level {
 
         // end of the level
         if (player.getPviot().getX() / 16 == end.getXInTile() && player.getPviot().getY() / 16 == end.getYInTile()) {
-            database.saveScore(50);
+            // database.saveScore(50);
             database.close();
             stop = true;
             System.out.println("win!");
             Engine.current_state = Engine.ui_state;
             sound.stop();
             Engine.setCurrentUI(Engine.winScreen);
-            Engine.setCurrentLevel(Engine.level2);
+            Engine.setCurrentLevel(Engine.level4);
         }
 
     }

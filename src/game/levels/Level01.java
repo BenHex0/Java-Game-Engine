@@ -9,7 +9,7 @@ import engine.sound.Sound;
 import engine.utilities.TileCoordinate;
 import game.entities.*;
 
-public class Level2 extends Level {
+public class Level01 extends Level {
 
     private int timer = 0;
     boolean startOnce = true;
@@ -19,12 +19,12 @@ public class Level2 extends Level {
     Enemy enemy;
     TileCoordinate end;
 
-    public Level2(int width, int height, InputHandler input) {
+    public Level01(int width, int height, InputHandler input) {
         super(width, height, input);
         start();
     }
 
-    public Level2(String path, InputHandler input) {
+    public Level01(String path, InputHandler input) {
         super(path, input);
         start();
     }
@@ -32,15 +32,15 @@ public class Level2 extends Level {
     void start() {
         deleteAllEntities();
         sound = new Sound();
-        TileCoordinate playerPosition = new TileCoordinate(15, 16);
+        TileCoordinate playerPosition = new TileCoordinate(25, 23);
         player = new Player(playerPosition.x(), playerPosition.y(), input);
-        TileCoordinate enemyPosition = new TileCoordinate(10, 8);
+        TileCoordinate enemyPosition = new TileCoordinate(18, 17);
         enemy = new Enemy(enemyPosition.x(), enemyPosition.y());
         database = new Database();
         add(player);
         add(enemy);
         enemy.target(player);
-        end = new TileCoordinate(176, 171);
+        end = new TileCoordinate(69, 63);
         sound.setFile(0);
     }
 
@@ -66,6 +66,7 @@ public class Level2 extends Level {
             }
         }
 
+        // end of the level
         if (player.getPviot().getX() / 16 == end.getXInTile() && player.getPviot().getY() / 16 == end.getYInTile()) {
             // database.saveScore(50);
             database.close();
@@ -74,7 +75,7 @@ public class Level2 extends Level {
             Engine.current_state = Engine.ui_state;
             sound.stop();
             Engine.setCurrentUI(Engine.winScreen);
-            Engine.setCurrentLevel(Engine.level3);
+            Engine.setCurrentLevel(Engine.level2);
         }
 
     }
@@ -92,7 +93,7 @@ public class Level2 extends Level {
     }
 
     void kill(Entity e1, Entity e2) {
-        if (isColliding(e1, e2)) { 
+        if (isColliding(e1, e2)) {
             player.die = true;
         }
     }
