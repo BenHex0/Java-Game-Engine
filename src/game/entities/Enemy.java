@@ -4,6 +4,7 @@ import java.util.*;
 import engine.entities.Entity;
 import engine.graphics.*;
 import engine.levels.tile.Tile;
+import engine.sound.Sound;
 import engine.utilities.Node;
 import engine.utilities.Vector2i;
 
@@ -11,11 +12,12 @@ public class Enemy extends Entity {
 
     private int xAxis, yAxis;
     private boolean walking = true;
-    private Animation anim_down = new Animation(SpriteSheet.playerAnimDown, 16, 16, 2);
-    private Animation anim_up = new Animation(SpriteSheet.playerAnimUp, 16, 16, 2);
-    private Animation anim_left = new Animation(SpriteSheet.playerAnimLeft, 16, 16, 2);
-    private Animation anim_right = new Animation(SpriteSheet.playerAnimRight, 16, 16, 2);
+    private Animation anim_down = new Animation(SpriteSheet.enemyAnimDown, 16, 16, 2);
+    private Animation anim_up = new Animation(SpriteSheet.enemyAnimUp, 16, 16, 2);
+    private Animation anim_left = new Animation(SpriteSheet.enemyAnimLeft, 16, 16, 2);
+    private Animation anim_right = new Animation(SpriteSheet.enemyAnimRight, 16, 16, 2);
     private Animation anim = anim_down;
+    private Sound sound;
 
     private Entity target;
     private List<Node> path = null;
@@ -28,7 +30,9 @@ public class Enemy extends Entity {
     public Enemy(double x, double y) {
         this.x = x;
         this.y = y;
-        sprite = Sprite.player;
+        sound = new Sound();
+        sound.setFile(2);
+        sound.loop();
     }
 
     public void target(Entity target) {
@@ -38,7 +42,7 @@ public class Enemy extends Entity {
     }
 
     public void update() {
-        time++; // BUG FIX: You weren't incrementing time, so (time % 15) only hit once!
+        time++;
         xAxis = 0;
         yAxis = 0;
 

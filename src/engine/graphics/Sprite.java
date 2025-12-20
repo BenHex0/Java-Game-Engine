@@ -11,9 +11,6 @@ public class Sprite {
     public SpriteSheet sheet;
     public Vector2i spritPivot;
 
-    public static Sprite player = new Sprite(16, 16, 1, 1, SpriteSheet.playerSheet);
-    // public static Sprite player = new Sprite(16, 16, 0, 0,
-    // SpriteSheet.playerIdleSheet);
 
     public static Sprite voidSprite = new Sprite(16, 16, 0x992784F5);
 
@@ -49,18 +46,6 @@ public class Sprite {
     public static Sprite grassWaterDownLeft = new Sprite(16, 16, 6, 4, SpriteSheet.tiles);
     public static Sprite grassWaterDownRight = new Sprite(16, 16, 7, 4, SpriteSheet.tiles);
 
-    //world tiles
-    ////////////////////////////////////////////////////////////////////////////////////////
-    // public static Sprite grass0 = new Sprite(16, 4, 4, SpriteSheet.tiles);
-    // public static Sprite grass1 = new Sprite(16, 5, 4, SpriteSheet.tiles);
-    // public static Sprite grass2 = new Sprite(16, 6, 2, SpriteSheet.tiles);
-    // public static Sprite grass3 = new Sprite(16, 4, 5, SpriteSheet.tiles);
-    // public static Sprite grass4 = new Sprite(16, 5, 5, SpriteSheet.tiles);
-    // public static Sprite grass5 = new Sprite(16, 6, 5, SpriteSheet.tiles);
-    // public static Sprite grass6 = new Sprite(16, 4, 6, SpriteSheet.tiles);
-    // public static Sprite grass7 = new Sprite(16, 5, 6, SpriteSheet.tiles);
-    // public static Sprite grass8 = new Sprite(16, 6, 6, SpriteSheet.tiles);
-    ////////////////////////////////////////////////////////////////////////////////////////
 
     // world edge tiles
     ////////////////////////////////////////////////////////////////////////////////////////

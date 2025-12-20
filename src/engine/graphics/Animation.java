@@ -25,7 +25,7 @@ public class Animation extends Sprite {
 
         if (firstFrame) {
             firstFrame = false;
-            frame = (frame + 1) % length;
+            sprite = sheet.getSprites()[1];
             return;
         }
 
@@ -45,6 +45,10 @@ public class Animation extends Sprite {
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public void setFrameRate(int rate) {
+        this.rate = rate;
     }
 
     public void setFrame(int index) {

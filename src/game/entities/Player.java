@@ -3,7 +3,6 @@ package game.entities;
 import engine.entities.Entity;
 import engine.graphics.Animation;
 import engine.graphics.Renderer;
-import engine.graphics.Sprite;
 import engine.graphics.SpriteSheet;
 import engine.input.InputHandler;
 import engine.sound.Sound;
@@ -27,7 +26,6 @@ public class Player extends Entity {
         this.x = x;
         this.y = y;
         this.input = inputHandler;
-        sprite = Sprite.player;
         soundEffect = new Sound();
         soundEffect.setFile(1);
     }
@@ -108,6 +106,7 @@ public class Player extends Entity {
 
         if (walking) {
             anim.update();
+            anim.setFrameRate(10);
         } else {
             anim.resetAnimation();
         }

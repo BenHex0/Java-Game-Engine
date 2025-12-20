@@ -14,6 +14,7 @@ public class Sound {
         // absolute or relative path from project root
         soundPath[0] = "assets/sounds/BlueBoyAdventure.wav";
         soundPath[1] = "assets/sounds/audio.wav";
+        soundPath[2] = "assets/sounds/1221.wav";
         // soundPath[1] = "assets/sound/coin.wav"; etc.
     }
 
