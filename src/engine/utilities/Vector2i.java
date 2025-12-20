@@ -49,12 +49,16 @@ public class Vector2i {
         return this;
     }
 
-    public boolean equals(Object object) {
-        if (!(object instanceof Vector2i))
-            return false;
-        Vector2i vec = (Vector2i) object;
-        if (vec.getX() == this.getX() && vec.getY() == this.getY())
+    public boolean equals(Object o) {
+        if (this == o)
             return true;
-        return false;
+        if (!(o instanceof Vector2i))
+            return false;
+        Vector2i that = (Vector2i) o;
+        return x == that.x && y == that.y;
+    }
+
+    public int hashCode() {
+        return 31 * x + y;
     }
 }
