@@ -8,8 +8,8 @@ import engine.ui.UI;
 import engine.Engine;
 import engine.input.InputHandler;
 
-public class LevelFinished extends UI{
-    
+public class LevelFinished extends UI {
+
     public LevelFinished(int screenWidth, int screenHeight, InputHandler input) {
         super(screenWidth, screenHeight, input);
     }
@@ -18,7 +18,7 @@ public class LevelFinished extends UI{
     public void update() {
         if (input.isKeyPressed(InputHandler.Key.ENTER)) {
             Engine.currentLevel.restartLevel();
-            Engine.gameState = Engine.gameplay;
+            Engine.current_state = Engine.gameplay_state;
         }
     }
 
@@ -48,10 +48,21 @@ public class LevelFinished extends UI{
         int y = (screenHeight - textHeight) / 2 + fm.getAscent();
         g.drawString(text, x, y);
 
+        // Scores
+        g.setFont(new Font("Monospaced", Font.BOLD, 24));
+        int startY = (screenHeight / 2) + textHeight;
+        g.setColor(new Color(200, 200, 80));
+        drawCenteredString(g, "score: +50", screenWidth, startY);
+
         g.setFont(new Font("Serif", Font.ITALIC, 16));
         g.setColor(new Color(200, 200, 200));
         String hint = "Press Enter to restart";
         int hx = (screenWidth - g.getFontMetrics().stringWidth(hint)) / 2;
         g.drawString(hint, hx, screenHeight - 50);
+    }
+
+    private void drawCenteredString(Graphics g, String text, int width, int y) {
+        int textWidth = g.getFontMetrics().stringWidth(text);
+        g.drawString(text, (width - textWidth) / 2, y);
     }
 }

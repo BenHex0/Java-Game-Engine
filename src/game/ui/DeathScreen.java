@@ -19,7 +19,7 @@ public class DeathScreen extends UI {
     public void update() {
         if (input.isKeyPressed(InputHandler.Key.ENTER)) {
             Engine.currentLevel.restartLevel();
-            Engine.gameState = Engine.gameplay;
+            Engine.current_state = Engine.gameplay_state;
         }
     }
 
@@ -48,7 +48,6 @@ public class DeathScreen extends UI {
         int x = (screenWidth - textWidth) / 2;
         int y = (screenHeight - textHeight) / 2 + fm.getAscent();
         g.drawString(text, x, y);
-
 
         g.setFont(new Font("Serif", Font.ITALIC, 16));
         g.setColor(new Color(200, 200, 200));

@@ -43,9 +43,9 @@ public class Level1 extends Level {
         end = new TileCoordinate(70, 68);
         sound.setFile(0);
     }
-    
+
     void startOnce() {
-        sound.loop();        
+        sound.loop();
     }
 
     @Override
@@ -58,19 +58,24 @@ public class Level1 extends Level {
         timer++;
         kill(player, enemy);
 
-        if (input.isKeyPressed(InputHandler.Key.JUMP)) {
-            System.out.println("Save Score");
-            database.saveScore("Hello", 69);
-            database.close();
+        if (player.die) {
+            sound.stop();
+            if (timer % 120 == 0) {
+                Engine.setCurrentUI(3);
+                Engine.current_state = Engine.gamePause_state;
+            }
         }
 
+        // end of the level
         if (player.getPviot().getX() / 16 == end.getXInTile() && player.getPviot().getY() / 16 == end.getYInTile()) {
+            database.saveScore(50);
+            database.close();
             stop = true;
             System.out.println("win!");
-            Engine.gameState = Engine.endGame;
+            Engine.current_state = Engine.ui_state;
             sound.stop();
-            Engine.setCurrentUI(3);
-            Engine.setCurrentLevel(2);
+            Engine.setCurrentUI(Engine.winScreen);
+            Engine.setCurrentLevel(Engine.level2);
         }
 
     }
@@ -89,13 +94,7 @@ public class Level1 extends Level {
 
     void kill(Entity e1, Entity e2) {
         if (isColliding(e1, e2)) {
-            System.out.println("Dead!");
             player.die = true;
-            sound.stop();
-            if (timer % 120 == 0) {
-                Engine.setCurrentUI(2);
-                Engine.gameState = Engine.gamePause;
-            }
         }
     }
 

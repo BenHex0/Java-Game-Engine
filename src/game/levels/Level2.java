@@ -12,7 +12,7 @@ import game.entities.*;
 public class Level2 extends Level {
 
     private int timer = 0;
-
+    boolean startOnce = true;
     Database database;
     Sound sound;
     Player player;
@@ -32,7 +32,7 @@ public class Level2 extends Level {
     void start() {
         deleteAllEntities();
         sound = new Sound();
-        TileCoordinate playerPosition = new TileCoordinate(25, 30);
+        TileCoordinate playerPosition = new TileCoordinate(176, 169);
         player = new Player(playerPosition.x(), playerPosition.y(), input);
         TileCoordinate enemyPosition = new TileCoordinate(10, 8);
         enemy = new Enemy(enemyPosition.x(), enemyPosition.y());
@@ -42,38 +42,46 @@ public class Level2 extends Level {
         enemy.target(player);
         end = new TileCoordinate(176, 171);
         sound.setFile(0);
-        sound.play();
+    }
 
+    void startOnce() {
+        sound.loop();
     }
 
     @Override
     public void currentLevelUpdate() {
 
+        if (startOnce) {
+            startOnce();
+        }
+
         timer++;
         kill(player, enemy);
 
-        if (input.isKeyPressed(InputHandler.Key.JUMP)) {
-            System.out.println("Save Score");
-            database.saveScore("Hello", 69);
-            database.close();
+        if (player.die) {
+            sound.stop();
+            if (timer % 120 == 0) {
+                Engine.setCurrentUI(3);
+                Engine.current_state = Engine.gamePause_state;
+            }
         }
-
-        if (player.die && input.isKeyPressed(InputHandler.Key.ENTER)) {
-            start();
-        }
-
-        // System.out.println("player: " + player.getPviot().getX() / 16 + " " +
-        // player.getPviot().getY() / 16);
-        // System.out.println("end: " + end.getXInTile() + " " + end.getYInTile());
 
         if (player.getPviot().getX() / 16 == end.getXInTile() && player.getPviot().getY() / 16 == end.getYInTile()) {
+            database.saveScore(50);
+            database.close();
             stop = true;
             System.out.println("win!");
-            Engine.gameState = Engine.endGame;
+            Engine.current_state = Engine.ui_state;
             sound.stop();
-            Engine.setCurrentLevel(3);
+            Engine.setCurrentUI(Engine.winScreen);
+            Engine.setCurrentLevel(Engine.level3);
         }
 
+    }
+
+    @Override
+    public void restartLevel() {
+        start();
     }
 
     boolean isColliding(Entity a, Entity b) {
@@ -84,10 +92,8 @@ public class Level2 extends Level {
     }
 
     void kill(Entity e1, Entity e2) {
-        if (isColliding(e1, e2)) {
-            System.out.println("Dead!");
+        if (isColliding(e1, e2)) { 
             player.die = true;
-            sound.stop();
         }
     }
 

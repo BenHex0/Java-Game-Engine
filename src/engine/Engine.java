@@ -8,6 +8,7 @@ import game.levels.*;
 import game.ui.DeathScreen;
 import game.ui.LevelFinished;
 import game.ui.MainMenu;
+import game.ui.ScoreUI;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -17,7 +18,7 @@ public class Engine extends Canvas implements Runnable {
 
     // screen settings
     final static double aspectRatio = 16.0 / 9.0;
-    final static int screenWidth = 500;
+    final static int screenWidth = 400;
     final static int screenHeight = (int) (screenWidth / aspectRatio);
     final static int scale = 3;
 
@@ -31,17 +32,23 @@ public class Engine extends Canvas implements Runnable {
 
     // UI
     private static UI currentUI;
+    public static int level1 = 1;
+    public static int level2 = 2;
+    public static int level3 = 3;
 
     // Levels
     public static Level currentLevel;
+    public static int mainMenuScreen = 1;
+    public static int scoreScreen = 2;
+    public static int deathScreen = 3;
+    public static int winScreen = 4;
 
-
-    // GAME STATE
-    public static int gameState = 0;
-    public static int menu = 1;
-    public static int gameplay = 2;
+    // GAME STATES
+    public static int current_state = 0;
+    public static int ui_state = 1;
+    public static int gameplay_state = 2;
     public static int endGame = 3;
-    public static int gamePause = 4;
+    public static int gamePause_state = 4;
 
     public Engine() {
         Dimension size = new Dimension(screenWidth * scale, screenHeight * scale);
@@ -50,7 +57,7 @@ public class Engine extends Canvas implements Runnable {
         inputHandler = new InputHandler();
         addKeyListener(inputHandler);
         renderer = new Renderer(screenWidth, screenHeight);
-        gameState = menu;
+        current_state = ui_state;
     }
 
     public static void setCurrentLevel(int level) {
@@ -67,8 +74,10 @@ public class Engine extends Canvas implements Runnable {
         if (ui == 1) {
             currentUI = new MainMenu(screenWidth * scale, screenHeight * scale, inputHandler);
         } else if (ui == 2) {
-            currentUI = new DeathScreen(screenWidth * scale, screenHeight * scale, inputHandler);
+            currentUI = new ScoreUI(screenWidth * scale, screenHeight * scale, inputHandler);
         } else if (ui == 3) {
+            currentUI = new DeathScreen(screenWidth * scale, screenHeight * scale, inputHandler);
+        } else if (ui == 4) {
             currentUI = new LevelFinished(screenWidth * scale, screenHeight * scale, inputHandler);
         }
     }
@@ -126,12 +135,10 @@ public class Engine extends Canvas implements Runnable {
     }
 
     public void update() {
-        if (gameState == menu || gameState == gamePause) {
+        if (current_state == ui_state || current_state == gamePause_state) {
             currentUI.update();
-        } else if (gameState == gameplay) {
+        } else if (current_state == gameplay_state) {
             currentLevel.update();
-        } else if (gameState == endGame) {
-            currentUI.update();
         }
         inputHandler.update();
     }
@@ -144,27 +151,21 @@ public class Engine extends Canvas implements Runnable {
         }
         Graphics g = bs.getDrawGraphics();
 
-        if (gameState == gameplay || gameState == gamePause) {
+        if (current_state == gameplay_state || current_state == gamePause_state) {
             renderer.clear();
             currentLevel.render(renderer);
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(renderer.frame, 0, 0, screenWidth * scale, screenHeight * scale, null);
 
-            if (gameState == gamePause) {
+            if (current_state == gamePause_state) {
                 currentUI.render(g);
             }
 
             g.dispose();
             bs.show();
 
-        } else if (gameState == menu) {
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, getWidth(), getHeight());
-            currentUI.render(g);
-            g.dispose();
-            bs.show();
-        } else if (gameState == endGame) {
+        } else if (current_state == ui_state) {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
             currentUI.render(g);

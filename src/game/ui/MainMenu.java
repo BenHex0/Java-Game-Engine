@@ -26,9 +26,12 @@ public class MainMenu extends UI {
         int centerX = (screenWidth - buttonWidth) / 2;
 
         buttons = new UIButton[] {
-                new UIButton("Start", centerX, startY, buttonWidth, buttonHeight, () -> Engine.gameState = Engine.gameplay),
-                new UIButton("Score", centerX, startY + (buttonHeight + spacing), buttonWidth, buttonHeight, () -> System.out.println("Scores")),
-                new UIButton("Exit", centerX, startY + 2 * (buttonHeight + spacing), buttonWidth, buttonHeight, () -> System.exit(0))
+                new UIButton("Start", centerX, startY, buttonWidth, buttonHeight,
+                        () -> Engine.current_state = Engine.gameplay_state),
+                new UIButton("Score", centerX, startY + (buttonHeight + spacing), buttonWidth, buttonHeight,
+                        () -> Engine.setCurrentUI(Engine.scoreScreen)),
+                new UIButton("Exit", centerX, startY + 2 * (buttonHeight + spacing), buttonWidth, buttonHeight,
+                        () -> System.exit(0))
         };
     }
 
