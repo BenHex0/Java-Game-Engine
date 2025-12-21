@@ -14,7 +14,7 @@ public class Sound {
         // absolute or relative path from project root
         soundPath[0] = "assets/sounds/BlueBoyAdventure.wav";
         soundPath[1] = "assets/sounds/audio.wav";
-        soundPath[2] = "assets/sounds/1221.wav";
+        soundPath[2] = "assets/sounds/1221(1).wav";
         // soundPath[1] = "assets/sound/coin.wav"; etc.
     }
 
@@ -37,7 +37,7 @@ public class Sound {
 
     public void play() {
         if (clip == null) {
-            System.err.println("❌ Clip is null — sound not loaded");
+            System.err.println("Clip is null — sound not loaded");
             return;
         }
         clip.setFramePosition(0); // restart
@@ -56,7 +56,7 @@ public class Sound {
         clip.stop();
     }
 
-    public void checkVolume() {
+    void checkVolume() {
         switch (volumeScale) {
             case 0:
                 volume = -80f;
@@ -78,5 +78,10 @@ public class Sound {
                 break;
         }
         fc.setValue(volume);
+    }
+
+    public void changeVolume(int value) {
+        this.volumeScale = value;
+        checkVolume();
     }
 }

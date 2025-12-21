@@ -38,7 +38,7 @@ public class Player extends Entity {
             animation();
             move(xAxis, yAxis, speed);
         } else if (once) {
-            soundEffect.play();
+            // soundEffect.play();
             once = false;
         }
     }

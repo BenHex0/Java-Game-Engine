@@ -13,26 +13,29 @@ public class Level01 extends Level {
 
     private int timer = 0;
     boolean startOnce = true;
+    boolean doOnce = true;
     Database database;
     Sound sound;
+    Sound enmeySound;
     Player player;
     Enemy enemy;
     TileCoordinate end;
 
     public Level01(int width, int height, InputHandler input) {
         super(width, height, input);
-        start();
+        initiateLevel();
     }
 
     public Level01(String path, InputHandler input) {
         super(path, input);
-        start();
+        initiateLevel();
     }
 
-    void start() {
+    void initiateLevel() {
         deleteAllEntities();
         sound = new Sound();
-        TileCoordinate playerPosition = new TileCoordinate(25, 23);
+        enmeySound = new Sound();
+        TileCoordinate playerPosition = new TileCoordinate(22, 25);
         player = new Player(playerPosition.x(), playerPosition.y(), input);
         TileCoordinate enemyPosition = new TileCoordinate(18, 17);
         enemy = new Enemy(enemyPosition.x(), enemyPosition.y());
@@ -42,24 +45,51 @@ public class Level01 extends Level {
         enemy.target(player);
         end = new TileCoordinate(69, 63);
         sound.setFile(0);
+        enmeySound.setFile(2);
+        enmeySound.changeVolume(3);
     }
 
     void startOnce() {
-        sound.loop();
+        if (startOnce) {
+            sound.loop();
+            startOnce = false;
+        }
     }
+
+    private boolean isEnemySoundPlaying = false;
 
     @Override
     public void currentLevelUpdate() {
-
-        if (startOnce) {
-            startOnce();
-        }
-
+        startOnce();
         timer++;
         kill(player, enemy);
 
+     
+        double dist = getDistance(enemy.getX(), enemy.getY(), player.getX(), player.getY());
+        double soundRadius = 360.0;
+
+        if (dist < soundRadius) {
+            if (!isEnemySoundPlaying && !player.die) {
+                enmeySound.loop();
+                isEnemySoundPlaying = true;
+            }
+        } else {
+            if (isEnemySoundPlaying) {
+                enmeySound.stop();
+                isEnemySoundPlaying = false;
+            }
+        }
+
+        if (player.die && isEnemySoundPlaying) {
+            enmeySound.stop();
+            isEnemySoundPlaying = false;
+        }
+
         if (player.die) {
-            sound.stop();
+            if (doOnce) {
+                sound.stop();
+                doOnce = false;
+            }
             if (timer % 120 == 0) {
                 Engine.setCurrentUI(3);
                 Engine.current_state = Engine.gamePause_state;
@@ -74,6 +104,7 @@ public class Level01 extends Level {
             System.out.println("win!");
             Engine.current_state = Engine.ui_state;
             sound.stop();
+            enmeySound.stop();
             Engine.setCurrentUI(Engine.winScreen);
             Engine.setCurrentLevel(Engine.level2);
         }
@@ -82,7 +113,9 @@ public class Level01 extends Level {
 
     @Override
     public void restartLevel() {
-        start();
+        doOnce = true;
+        startOnce = true;
+        initiateLevel();
     }
 
     boolean isColliding(Entity a, Entity b) {
@@ -96,6 +129,12 @@ public class Level01 extends Level {
         if (isColliding(e1, e2)) {
             player.die = true;
         }
+    }
+
+    private double getDistance(double sx, double sy, double ex, double ey) {
+        double dx = sx - ex;
+        double dy = sy - ey;
+        return Math.sqrt((dx * dx) + (dy * dy));
     }
 
 }

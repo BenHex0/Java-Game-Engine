@@ -4,7 +4,6 @@ import java.util.*;
 import engine.entities.Entity;
 import engine.graphics.*;
 import engine.levels.tile.Tile;
-import engine.sound.Sound;
 import engine.utilities.Node;
 import engine.utilities.Vector2i;
 
@@ -17,7 +16,6 @@ public class Enemy extends Entity {
     private Animation anim_left = new Animation(SpriteSheet.enemyAnimLeft, 16, 16, 2);
     private Animation anim_right = new Animation(SpriteSheet.enemyAnimRight, 16, 16, 2);
     private Animation anim = anim_down;
-    private Sound sound;
 
     private Entity target;
     private List<Node> path = null;
@@ -30,9 +28,6 @@ public class Enemy extends Entity {
     public Enemy(double x, double y) {
         this.x = x;
         this.y = y;
-        sound = new Sound();
-        sound.setFile(2);
-        sound.loop();
     }
 
     public void target(Entity target) {
@@ -65,7 +60,7 @@ public class Enemy extends Entity {
 
         X = getPviot().getX();
         Y = getPviot().getY();
-    
+
         Vector2i startTile = new Vector2i(X >> 4, Y >> 4);
         double px = target.getPviot().getX();
         double py = target.getPviot().getY();
@@ -85,7 +80,7 @@ public class Enemy extends Entity {
                 path = null;
             }
         }
-        
+
         // --- (2. Path Following Logic) ---
         if (path != null) { // Check if path exists and we haven't reached the end
 
@@ -142,9 +137,9 @@ public class Enemy extends Entity {
         }
     }
 
-    //A* Algorithm Pathfinding
+    // A* Algorithm Pathfinding
     public List<Node> findPath(Vector2i start, Vector2i end) {
-       
+
         PriorityQueue<Node> openList = new PriorityQueue<>(nodeSorter);
         Map<Vector2i, Double> gCosts = new HashMap<>();
 
@@ -158,7 +153,7 @@ public class Enemy extends Entity {
             if (iterations > 10000)
                 break;
 
-            Node current = openList.poll(); 
+            Node current = openList.poll();
 
             if (current.tile.equals(end)) {
                 List<Node> result = new ArrayList<>();
@@ -174,7 +169,6 @@ public class Enemy extends Entity {
                     continue;
                 int xi = (i % 3) - 1;
                 int yi = (i / 3) - 1;
-
 
                 if (xi != 0 && yi != 0) {
                     if (level.getTile(current.tile.getX() + xi, current.tile.getY()).solid() ||
