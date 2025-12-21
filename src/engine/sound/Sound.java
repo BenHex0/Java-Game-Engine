@@ -6,16 +6,14 @@ import javax.sound.sampled.*;
 public class Sound {
     Clip clip;
     FloatControl fc;
-    String soundPath[] = new String[30]; // store paths
+    String soundPath[] = new String[3]; // store paths
     int volumeScale = 1;
     float volume;
 
     public Sound() {
-        // absolute or relative path from project root
         soundPath[0] = "assets/sounds/BlueBoyAdventure.wav";
-        soundPath[1] = "assets/sounds/audio.wav";
-        soundPath[2] = "assets/sounds/1221(1).wav";
-        // soundPath[1] = "assets/sound/coin.wav"; etc.
+        soundPath[1] = "assets/sounds/death.wav";
+        soundPath[2] = "assets/sounds/monster.wav";
     }
 
     public void setFile(int i) {
